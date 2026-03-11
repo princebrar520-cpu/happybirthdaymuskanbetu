@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Birthday Surprise</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial;
+background:linear-gradient(135deg,#ff758c,#ff7eb3);
+color:white;
+text-align:center;
+overflow:hidden;
+}
+
+.page{
+display:none;
+height:100vh;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+}
+
+.active{
+display:flex;
+}
+
+button{
+padding:15px 35px;
+font-size:20px;
+border:none;
+border-radius:30px;
+background:white;
+color:#ff4f81;
+cursor:pointer;
+margin-top:20px;
+}
+
+.cake-container{
+position:relative;
+font-size:150px;
+cursor:pointer;
+}
+
+.flame{
+position:absolute;
+top:-40px;
+left:50%;
+transform:translateX(-50%);
+font-size:40px;
+animation:flicker 0.3s infinite;
+}
+
+@keyframes flicker{
+0%{transform:translateX(-50%) scale(1)}
+50%{transform:translateX(-50%) scale(1.2)}
+100%{transform:translateX(-50%) scale(1)}
+}
+
+.cake{
+display:flex;
+font-size:150px;
+transition:1s;
+}
+
+.slice{
+transition:1s;
+}
+
+.cut-left{
+transform:translateX(-80px) rotate(-10deg);
+}
+
+.cut-right{
+transform:translateX(80px) rotate(10deg);
+}
+
+.knife{
+font-size:70px;
+position:absolute;
+top:-120px;
+left:50%;
+transform:translateX(-50%);
+display:none;
+}
+
+.message{
+width:70%;
+font-size:22px;
+line-height:1.7;
+min-height:200px;
+}
+
+.heart{
+position:absolute;
+font-size:25px;
+animation:fall 6s linear infinite;
+}
+
+@keyframes fall{
+0%{transform:translateY(-10vh)}
+100%{transform:translateY(110vh)}
+}
+
+.firework{
+position:absolute;
+font-size:30px;
+animation:explode 1s forwards;
+}
+
+@keyframes explode{
+0%{transform:scale(0)}
+100%{transform:scale(3);opacity:0}
+}
+
+</style>
+</head>
+
+<body>
+
+<audio autoplay loop>
+<source src="birthday.mp3" type="audio/mpeg">
+</audio>
+
+<!-- PAGE 1 -->
+
+<div id="page1" class="page active">
+
+<h1>🎁 Click Here For A Surprise</h1>
+<button onclick="nextPage('page1','page2')">Open Surprise</button>
+
+</div>
+
+<!-- PAGE 2 -->
+
+<div id="page2" class="page">
+
+<h1>Blow The Candle</h1>
+
+<div class="cake-container" onclick="blowCandle()">
+
+🎂
+<div class="flame" id="flame">🔥</div>
+
+</div>
+
+<p>Click the flame to blow the candle</p>
+
+</div>
+
+<!-- PAGE 3 -->
+
+<div id="page3" class="page">
+
+<h1>Cut The Cake</h1>
+
+<div class="cake-container">
+
+<div class="knife" id="knife">🔪</div>
+
+<div class="cake" onclick="cutCake()">
+
+<div id="left" class="slice">🍰</div>
+<div id="right" class="slice">🍰</div>
+
+</div>
+
+</div>
+
+<p>Click the cake to cut it</p>
+
+</div>
+
+<!-- PAGE 4 -->
+
+<div id="page4" class="page">
+
+<h1>🎉 HAPPY BIRTHDAY 🎉</h1>
+
+<div id="typedMessage" class="message"></div>
+
+</div>
+
+<script>
+
+function nextPage(c,n){
+document.getElementById(c).classList.remove("active");
+document.getElementById(n).classList.add("active");
+}
+
+function blowCandle(){
+
+document.getElementById("flame").style.display="none";
+
+setTimeout(()=>{
+nextPage('page2','page3');
+},1000)
+
+}
+
+function cutCake(){
+
+document.getElementById("knife").style.display="block";
+
+document.getElementById("left").classList.add("cut-left");
+document.getElementById("right").classList.add("cut-right");
+
+setTimeout(()=>{
+
+nextPage('page3','page4');
+startTyping();
+fireworks();
+heartRain();
+
+},1500)
+
+}
+
+let text=`Wish u a very very happy birthday my betu / my bestie / MERE PAPA ❤️
+
+Aapko janamdin ki haardik shubkaamnaaye yall.
+Aapki saari wishes poori hon.
+Aap ke sath hmesha acha acha ho.
+
+Aap hmesha mele bestfriend raho
+aur mein bhi aapka rahu.
+
+Sorry vo laptop mein emojis add krna thoda mushkil hai
+jyada add ni krr paya adjust krlena yall 😅
+
+And in the end I wanna say ki
+you are the bestest friend I have ever made.
+
+Meri umar bhi tumko lagg jaaye
+tumhaari life ek dam happy ho jaaye.
+
+Once again happy birthday yall.
+
+Lobbe uuhhhh ❤️`;
+
+let i=0;
+
+function startTyping(){
+
+function type(){
+
+if(i<text.length){
+
+document.getElementById("typedMessage").innerHTML+=text.charAt(i);
+
+i++;
+
+setTimeout(type,40);
+
+}
+
+}
+
+type();
+
+}
+
+function fireworks(){
+
+setInterval(()=>{
+
+let f=document.createElement("div");
+
+f.className="firework";
+
+f.innerHTML="✨";
+
+f.style.left=Math.random()*100+"%";
+f.style.top=Math.random()*80+"%";
+
+document.body.appendChild(f);
+
+setTimeout(()=>f.remove(),1000);
+
+},300);
+
+}
+
+function heartRain(){
+
+setInterval(()=>{
+
+let h=document.createElement("div");
+
+h.className="heart";
+
+h.innerHTML="💖";
+
+h.style.left=Math.random()*100+"%";
+
+document.body.appendChild(h);
+
+setTimeout(()=>h.remove(),6000);
+
+},300);
+
+}
+
+</script>
+
+</body>
+</html>
